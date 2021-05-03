@@ -24,8 +24,10 @@ class Game
     9.times.sum(frames.last.score) do |i|
       if frames[i].strike?
         next_frame = frames[i.next]
-        next_next_shot = next_frame.strike? ? frames[i.next.next].first_shot : next_frame.second_shot
-        frames[i].score + next_frame.first_shot.score + next_next_shot.score
+        after_shots = [next_frame.first_shot, next_frame.second_shot]
+        next_next_frame = frames[i.next.next]
+        after_shots += [next_next_frame.first_shot] if next_next_frame
+        frames[i].score + after_shots.compact.take(2).sum(&:score)
       elsif frames[i].spare?
         frames[i].score + frames[i.next].first_shot.score
       else
