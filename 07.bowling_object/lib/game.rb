@@ -21,6 +21,16 @@ class Game
   end
 
   def score
-    frames.sum(&:score)
+    9.times.sum(frames.last.score) do |i|
+      if frames[i].strike?
+        next_frame = frames[i.next]
+        next_next_shot = next_frame.strike? ? frames[i.next.next].first_shot : next_frame.second_shot
+        frames[i].score + next_frame.first_shot.score + next_next_shot.score
+      elsif frames[i].spare?
+        frames[i].score + frames[i.next].first_shot.score
+      else
+        frames[i].score
+      end
+    end
   end
 end

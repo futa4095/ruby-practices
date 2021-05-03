@@ -17,5 +17,12 @@ class FrameTest < Minitest::Test
   def test_strike_frame
     frame = Frame.new 'X', nil
     assert_equal 10, frame.score
+    assert frame.strike?
+  end
+
+  def test_spare_frame
+    frame = Frame.new '1', '9'
+    refute frame.strike?
+    assert frame.spare?
   end
 end
