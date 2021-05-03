@@ -5,7 +5,17 @@ require_relative '../lib/frame'
 
 class FrameTest < Minitest::Test
   def test_frame
-    frame = Frame.new
-    assert frame
+    frame = Frame.new '0', '1'
+    assert_equal 1, frame.score
+  end
+
+  def test_last_frame
+    frame = Frame.new '2', '3', '4'
+    assert_equal 9, frame.score
+  end
+
+  def test_strike_frame
+    frame = Frame.new 'X', nil
+    assert_equal 10, frame.score
   end
 end
