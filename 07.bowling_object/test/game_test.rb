@@ -2,7 +2,6 @@
 
 require 'minitest/autorun'
 require_relative '../lib/game'
-# require_relative '../lib/frame'
 
 class GameTest < Minitest::Test
   def test_game_case1
