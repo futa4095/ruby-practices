@@ -35,5 +35,18 @@ module LS
         command.run
       end
     end
+
+    def test_long_format
+      command = Command.new(all_files: false, reverse: false, format: :long)
+      expected = <<~"TEXT"
+        total 8
+        drwxr-xr-x  3 kikuchi  staff  96  5  5 11:13 lib
+        -rwxr-xr-x  1 kikuchi  staff  64  5  3 21:38 ls.rb
+        drwxr-xr-x  3 kikuchi  staff  96  5  5 11:13 test
+      TEXT
+      assert_output expected do
+        command.run
+      end
+    end
   end
 end

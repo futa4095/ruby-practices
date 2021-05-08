@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './file'
+require_relative './long_formatter'
 require_relative './vertical_formatter'
 
 module LS
@@ -41,7 +42,7 @@ module LS
       when :vertical
         LS::VerticalFormatter.new(files).output
       when :long
-        print_long(files)
+        LS::LongFormatter.new(files).output
       end
     end
   end
