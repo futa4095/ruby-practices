@@ -2,12 +2,8 @@
 
 module LS
   class LongFormatter
-    TAB_WIDTH = 8
-
     def initialize(files)
       @files = files
-      tab_count_per_filename = ((longest_filename_length.to_f + 1) / TAB_WIDTH).ceil
-      @column_width = tab_count_per_filename * TAB_WIDTH
     end
 
     def output
@@ -46,11 +42,6 @@ module LS
 
     def longest_filename_length
       @files.map { |f| f.name.length }.max
-    end
-
-    def name_filled_in_tab(name)
-      tab_count = ((@column_width - name.length).to_f / TAB_WIDTH).ceil
-      name + "\t" * tab_count
     end
   end
 end
