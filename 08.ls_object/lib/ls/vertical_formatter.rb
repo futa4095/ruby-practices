@@ -8,8 +8,8 @@ module LS
     def initialize(files)
       @files = files
       @row_count = (@files.count.to_f / COLUMN_COUNT).ceil
-      tab_count_per_row = (longest_filename_length.to_f / TAB_WIDTH).ceil
-      @column_width = tab_count_per_row * TAB_WIDTH
+      tab_count_per_filename = ((longest_filename_length.to_f + 1) / TAB_WIDTH).ceil
+      @column_width = tab_count_per_filename * TAB_WIDTH
     end
 
     def output
