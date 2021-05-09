@@ -2,9 +2,14 @@
 
 require 'date'
 require 'etc'
+require 'forwardable'
 
 module LS
   class File
+    extend Forwardable
+
+    def_delegators :@stat, :blocks, :nlink, :size, :symlink?
+
     attr_reader :name, :stat
 
     def initialize(name)
@@ -38,20 +43,12 @@ module LS
       end.join
     end
 
-    def number_of_links
-      @stat.nlink
-    end
-
     def owner_name
       Etc.getpwuid(@stat.uid).name
     end
 
     def group_name
       Etc.getgrgid(@stat.gid).name
-    end
-
-    def number_of_bytes
-      @stat.size
     end
 
     def modification_time

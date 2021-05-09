@@ -17,30 +17,33 @@ module LS
     private
 
     def print_total
-      total_blocks = @files.sum { |file| file.stat.blocks }
+      total_blocks = @files.sum(&:blocks)
       puts "total #{total_blocks}"
     end
 
     def make_column_width
-      column_width = {}
-      column_width[:number_of_links] = @files.map { |f| f.number_of_links.to_s.length }.max
-      column_width[:owner_name] = @files.map { |f| f.owner_name.length }.max
-      column_width[:group_name] = @files.map { |f| f.group_name.length }.max
-      column_width[:number_of_bytes] = @files.map { |f| f.number_of_bytes.to_s.length }.max
-      column_width
+      %i[nlink owner_name group_name size].each_with_object({}) { |name, column_width| column_width[name] = max_width(name) }
+    end
+
+    def max_width(name)
+      @files.map do |file|
+        column = file.public_send(name)
+        column = column.to_s if column.instance_of?(Integer)
+        column.length
+      end.max
     end
 
     def format_line(file, column_width)
       fields = [
         "#{file.file_mode}  ",
-        "#{file.number_of_links.to_s.rjust(column_width[:number_of_links])} ",
+        "#{file.nlink.to_s.rjust(column_width[:nlink])} ",
         "#{file.owner_name.ljust(column_width[:owner_name])}  ",
         "#{file.group_name.ljust(column_width[:group_name])}  ",
-        "#{file.number_of_bytes.to_s.rjust(column_width[:number_of_bytes])} ",
+        "#{file.size.to_s.rjust(column_width[:size])} ",
         "#{file.modification_time} ",
         file.name
       ]
-      fields << " -> #{file.link_target}" if file.entry_type == 'l'
+      fields << " -> #{file.link_target}" if file.symlink?
       fields.join
     end
   end
