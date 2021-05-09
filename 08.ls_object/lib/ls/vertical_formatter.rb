@@ -13,11 +13,15 @@ module LS
     end
 
     def output
-      rows = @files.group_by { |val| @files.index(val) % @row_count }.values
+      rows = @files.group_by { |file| row_number(file) }.values
       rows.each { |fields| puts format_line(fields) }
     end
 
     private
+
+    def row_number(file)
+      @files.index(file) % @row_count
+    end
 
     def format_line(fields)
       fields[...-1].map { |field| name_filled_in_tab(field.name) }.join + fields.last.name

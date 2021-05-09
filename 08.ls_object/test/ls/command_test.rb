@@ -40,9 +40,9 @@ module LS
       command = Command.new(all_files: false, reverse: false, format: :long)
       expected = <<~"TEXT"
         total 8
-        drwxr-xr-x  3 kikuchi  staff  96  5  5 11:13 lib
-        -rwxr-xr-x  1 kikuchi  staff  64  5  3 21:38 ls.rb
-        drwxr-xr-x  3 kikuchi  staff  96  5  5 11:13 test
+        drwxr-xr-x  3 kikuchi  staff   96  5  5 11:13 lib
+        -rwxr-xr-x  1 kikuchi  staff  544  5  9 21:52 ls.rb
+        drwxr-xr-x  3 kikuchi  staff   96  5  5 11:13 test
       TEXT
       assert_output expected do
         command.run
