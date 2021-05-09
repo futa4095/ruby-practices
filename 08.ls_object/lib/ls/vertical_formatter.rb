@@ -20,7 +20,7 @@ module LS
     private
 
     def format_line(fields)
-      fields[...-1].map{ |field| name_filled_in_tab(field.name) }.join + fields.last.name
+      fields[...-1].map { |field| name_filled_in_tab(field.name) }.join + fields.last.name
     end
 
     def longest_filename_length
