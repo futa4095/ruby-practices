@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 require_relative './file'
-require_relative './long_formatter'
-require_relative './vertical_formatter'
+require_relative './formatter_factory'
 
 module LS
   class Command
@@ -19,6 +18,8 @@ module LS
       sort_files(files)
       print_files(files)
     end
+
+    private
 
     def collect_files
       if @all_files
@@ -38,12 +39,8 @@ module LS
     end
 
     def print_files(files)
-      case @format
-      when :vertical
-        LS::VerticalFormatter.new(files).output
-      when :long
-        LS::LongFormatter.new(files).output
-      end
+      formatter = FormatterFactory.create_formatter(@format, files)
+      formatter.output
     end
   end
 end

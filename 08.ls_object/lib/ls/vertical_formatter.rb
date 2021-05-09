@@ -17,6 +17,8 @@ module LS
       rows.each { |fields| puts format_line(fields) }
     end
 
+    private
+
     def format_line(fields)
       fields[...-1].map{ |field| name_filled_in_tab(field.name) }.join + fields.last.name
     end
