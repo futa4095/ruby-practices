@@ -7,7 +7,7 @@ module LS
     end
 
     def output
-      print_total
+      print_total if @files.count > 1
       column_width = make_column_width
       @files.each do |file|
         puts format_line(file, column_width)
