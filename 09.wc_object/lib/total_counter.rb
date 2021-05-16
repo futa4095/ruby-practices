@@ -3,7 +3,7 @@
 class TotalCounter
   TITLE = 'total'
 
-  attr_reader :number_of_lines, :number_of_words, :number_of_bytes
+  attr_reader :number_of_lines, :number_of_words, :number_of_bytes, :message
 
   def initialize
     @number_of_lines = 0
@@ -19,5 +19,9 @@ class TotalCounter
     @number_of_lines += another_counter.number_of_lines
     @number_of_words += another_counter.number_of_words
     @number_of_bytes += another_counter.number_of_bytes
+  end
+
+  def valid?
+    true
   end
 end

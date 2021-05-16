@@ -17,17 +17,18 @@ class Command
     exit_status = SUCCESS
 
     if @paths.empty?
-      counter = WordCounter.new($stdin)
+      counter = WordCounter.new(use_stdin: true)
       print_counter(counter)
       return exit_status
     end
 
     @paths.each do |path|
-      counter = word_count(path)
-      if counter
+      counter = WordCounter.new(path)
+      if counter.valid?
         print_counter(counter)
         @total.accumlate(counter)
       else
+        print_warning(counter)
         exit_status = WARNING
       end
     end
@@ -37,33 +38,20 @@ class Command
 
   private
 
-  def word_count(path)
-    unless File.exist?(path)
-      warn "wc: #{path}: open: No such file or directory"
-      return
-    end
-
-    unless File.file?(path)
-      warn "wc: #{path}: read: Is a directory"
-      return
-    end
-
-    File.open(path) { |f| WordCounter.new(f, f.path) }
+  def print_counter(counter)
+    params = { lines: counter.number_of_lines,
+               words: counter.number_of_words,
+               bytes: counter.number_of_bytes,
+               name: counter.name }
+    puts format(format_string, params)
   end
 
-  def print_counter(counter)
-    print_and_format(lines: counter.number_of_lines,
-                     words: counter.number_of_words,
-                     bytes: counter.number_of_bytes,
-                     name: counter.name)
+  def print_warning(counter)
+    warn counter.message
   end
 
   def print_total
     print_counter @total
-  end
-
-  def print_and_format(counter)
-    puts format(format_string, counter)
   end
 
   def format_string

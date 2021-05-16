@@ -42,4 +42,14 @@ class CommandTest < Minitest::Test
       command.run
     end
   end
+
+  def test_directory
+    command = Command.new(['/tmp'], { show_all: true })
+    expected = <<~TEXT
+      wc: /tmp: read: Is a directory
+    TEXT
+    assert_output nil, expected do # stderrのテスト
+      command.run
+    end
+  end
 end
