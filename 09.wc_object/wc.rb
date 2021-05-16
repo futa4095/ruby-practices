@@ -5,8 +5,7 @@ require 'optparse'
 require_relative 'lib/command'
 
 def main
-  option = parse_option
-  Command.new(ARGV, option).run
+  Command.new(ARGV, parse_option).run
 end
 
 def parse_option
@@ -18,4 +17,4 @@ def parse_option
   option
 end
 
-main
+exit main
