@@ -35,6 +35,8 @@ class Command
     exit_status
   end
 
+  private
+
   def word_count(path)
     unless File.exist?(path)
       warn "wc: #{path}: open: No such file or directory"
@@ -61,10 +63,13 @@ class Command
   end
 
   def print_and_format(counter)
+    puts format(format_string, counter)
+  end
+
+  def format_string
     formats = [' %<lines>7s']
     @option[:show_all] && formats << '%<words>7s' << '%<bytes>7s'
     formats << '%<name>s' unless @paths.empty?
-    puts format(formats.join(' '), counter)
-    # format
+    formats.join(' ')
   end
 end

@@ -8,6 +8,12 @@ class WordCounter
     @number_of_lines = 0
     @number_of_words = 0
     @number_of_bytes = 0
+    count(io)
+  end
+
+  private
+
+  def count(io)
     io.each do |line|
       @number_of_lines += 1 if line.end_with? "\n"
       @number_of_words += line.strip.split.count
