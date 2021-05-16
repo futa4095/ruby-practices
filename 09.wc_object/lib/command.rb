@@ -56,8 +56,8 @@ class Command
 
   def format_string
     formats = [' %<lines>7s']
-    @option[:show_all] && formats << '%<words>7s' << '%<bytes>7s'
-    formats << '%<name>s' unless @paths.empty?
-    formats.join(' ')
+    @option[:show_all] && formats << ' %<words>7s' << ' %<bytes>7s'
+    formats << ' %<name>s' unless @paths.empty?
+    formats.join
   end
 end
