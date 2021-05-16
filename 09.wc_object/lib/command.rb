@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'total_counter'
 require_relative 'word_counter'
 
 class Command
@@ -9,6 +10,7 @@ class Command
   def initialize(paths, option)
     @paths = paths
     @option = option
+    @total = TotalCounter.new
   end
 
   def run
@@ -24,13 +26,13 @@ class Command
       counter = word_count(path)
       if counter
         print_counter(counter)
+        @total.accumlate(counter)
       else
         exit_status = WARNING
       end
     end
-    # print_total(option) if option[:print_total]
+    print_total if @paths.size >= 2
     exit_status
-    # end
   end
 
   def word_count(path)
@@ -54,13 +56,9 @@ class Command
                      name: counter.name)
   end
 
-  # def print_total(option)
-  #   print_and_format(option,
-  #                    lines: WordCounter.total_lines,
-  #                    words: WordCounter.total_words,
-  #                    bytes: WordCounter.total_bytes,
-  #                    name: 'total')
-  # end
+  def print_total
+    print_counter @total
+  end
 
   def print_and_format(counter)
     formats = [' %<lines>7s']
