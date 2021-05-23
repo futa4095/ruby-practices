@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'stdin_counter'
 require_relative 'total_counter'
 require_relative 'word_counter'
 
@@ -17,7 +18,7 @@ class Command
     exit_status = SUCCESS
 
     if @paths.empty?
-      counter = WordCounter.new(use_stdin: true)
+      counter = StdinCounter.new
       print_counter(counter)
       return exit_status
     end

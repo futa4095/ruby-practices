@@ -3,13 +3,12 @@
 class WordCounter
   attr_reader :name, :number_of_lines, :number_of_words, :number_of_bytes, :message
 
-  def initialize(path = '', use_stdin: false)
+  def initialize(path = '')
     @name = path
-    @use_stdin = use_stdin
     @number_of_lines = 0
     @number_of_words = 0
     @number_of_bytes = 0
-    validate unless use_stdin
+    validate
     count if valid?
   end
 
@@ -33,12 +32,12 @@ class WordCounter
   end
 
   def count
-    io = @use_stdin ? $stdin : File.open(@name)
-    io.each do |line|
-      @number_of_lines += 1 if line.end_with? "\n"
-      @number_of_words += line.strip.split.count
-      @number_of_bytes += line.bytesize
+    File.open(@name) do |f|
+      f.each do |line|
+        @number_of_lines += 1 if line.end_with? "\n"
+        @number_of_words += line.strip.split.count
+        @number_of_bytes += line.bytesize
+      end
     end
-    io.close unless @use_stdin
   end
 end
