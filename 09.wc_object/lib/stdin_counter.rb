@@ -1,23 +1,13 @@
 # frozen_string_literal: true
 
 class StdinCounter
-  attr_reader :name, :number_of_lines, :number_of_words, :number_of_bytes
+  include Countable
+  attr_accessor :number_of_lines, :number_of_words, :number_of_bytes
+  attr_reader :name
 
   def initialize
     @name = ''
-    @number_of_lines = 0
-    @number_of_words = 0
-    @number_of_bytes = 0
-    count
-  end
-
-  private
-
-  def count
-    $stdin.each do |line|
-      @number_of_lines += 1 if line.end_with? "\n"
-      @number_of_words += line.strip.split.count
-      @number_of_bytes += line.bytesize
-    end
+    super
+    count $stdin
   end
 end

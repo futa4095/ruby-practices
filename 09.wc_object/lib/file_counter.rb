@@ -1,15 +1,16 @@
 # frozen_string_literal: true
 
+require_relative 'countable'
 class FileCounter
-  attr_reader :name, :number_of_lines, :number_of_words, :number_of_bytes, :message
+  include Countable
+  attr_accessor :number_of_lines, :number_of_words, :number_of_bytes
+  attr_reader :name, :message
 
   def initialize(path = '')
     @name = path
-    @number_of_lines = 0
-    @number_of_words = 0
-    @number_of_bytes = 0
+    super()
     validate
-    count if valid?
+    valid? && File.open(@name) { |f| count(f) }
   end
 
   def valid?
@@ -29,15 +30,5 @@ class FileCounter
       return
     end
     @message = ''
-  end
-
-  def count
-    File.open(@name) do |f|
-      f.each do |line|
-        @number_of_lines += 1 if line.end_with? "\n"
-        @number_of_words += line.strip.split.count
-        @number_of_bytes += line.bytesize
-      end
-    end
   end
 end
