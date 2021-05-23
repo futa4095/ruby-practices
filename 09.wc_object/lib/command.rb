@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
+require_relative 'file_counter'
 require_relative 'stdin_counter'
 require_relative 'total_counter'
-require_relative 'word_counter'
 
 class Command
   SUCCESS = true
@@ -24,7 +24,7 @@ class Command
     end
 
     @paths.each do |path|
-      counter = WordCounter.new(path)
+      counter = FileCounter.new(path)
       if counter.valid?
         print_counter(counter)
         @total.accumlate(counter)

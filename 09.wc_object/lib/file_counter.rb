@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WordCounter
+class FileCounter
   attr_reader :name, :number_of_lines, :number_of_words, :number_of_bytes, :message
 
   def initialize(path = '')
