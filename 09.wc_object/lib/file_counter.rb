@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 
-require_relative 'countable'
-class FileCounter
-  include Countable
-  attr_accessor :number_of_lines, :number_of_words, :number_of_bytes
+require_relative 'base_counter'
+
+class FileCounter < BaseCounter
   attr_reader :name, :message
 
   def initialize(path = '')
-    @name = path
     super()
+    @name = path
     validate
     valid? && File.open(@name) { |f| count(f) }
   end

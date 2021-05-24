@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-class StdinCounter
-  include Countable
-  attr_accessor :number_of_lines, :number_of_words, :number_of_bytes
-  attr_reader :name
+require_relative 'base_counter'
 
+class StdinCounter < BaseCounter
   def initialize
-    @name = ''
     super
     count $stdin
   end
+
+  def name = ''
 end
